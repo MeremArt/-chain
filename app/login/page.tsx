@@ -2,10 +2,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { API_ENDPOINTS, handleApiError } from "@/config/api";
 import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
 import { Eye, EyeOff, Lock, Phone } from "lucide-react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Image from "next/image";
 
 export default function Login() {

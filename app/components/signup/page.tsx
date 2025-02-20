@@ -2,18 +2,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { API_ENDPOINTS } from "@/config/api";
 import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
-import {
-  Eye,
-  EyeOff,
-  User,
-  Lock,
-  Mail,
-  Phone,
-  CheckCircle,
-} from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, Phone, CheckCircle } from "lucide-react";
 import Image from "next/image";
 
 export default function Register() {
@@ -269,7 +262,7 @@ export default function Register() {
           <div className="lg:w-1/2 relative bg-gradient-to-br from-indigo-600 to-purple-700 hidden lg:block">
             <div className="absolute inset-0 flex items-center justify-center p-8">
               <div className="text-center">
-                <img
+                <Image
                   src="/api/placeholder/400/320"
                   alt="Registration illustration"
                   className="mx-auto mb-8 rounded-lg shadow-lg"
