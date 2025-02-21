@@ -2,18 +2,17 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { API_ENDPOINTS, handleApiError } from "@/config/api";
 import Link from "next/link";
+import axios from "axios";
+import { API_ENDPOINTS } from "@/config/api";
 import toast, { Toaster } from "react-hot-toast";
-import { Eye, EyeOff, Lock, Phone } from "lucide-react";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Eye, EyeOff, Lock, User } from "lucide-react";
 import Image from "next/image";
 
 export default function Login() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    number: "",
+    phoneNumber: "",
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -35,34 +34,43 @@ export default function Login() {
     const loadingToast = toast.loading("Logging in...");
 
     try {
-      const response = await fetch(API_ENDPOINTS.AUTH.LOGIN, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          password: formData.password,
-          number: formData.number,
-        }),
+      const response = await axios.post(API_ENDPOINTS.AUTH.LOGIN, {
+        phoneNumber: formData.phoneNumber,
+        password: formData.password,
+      });
+      console.log("Sending login request with payload:", {
+        phoneNumber: formData.phoneNumber,
+        password: "[REDACTED]",
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message[0] || "An error occurred");
+      if (response.status !== 200) {
+        throw new Error(response.data.message || "An error occurred");
       }
 
-      const responseData = await response.json();
+      const responseData = response.data;
 
+      // Debug logging
+      console.log("Sending login request with payload:", {
+        phoneNumber: formData.phoneNumber,
+        password: "[REDACTED]",
+      });
       // Store the JWT in local storage
-      localStorage.setItem("jwt", responseData.jwt);
+      localStorage.setItem("jwt", responseData.token);
 
+      if (!responseData.user) {
+        console.error("Login failed, user data is missing:", responseData);
+        toast.error("Login failed: user data is missing");
+        return;
+      }
+      // Store user data
       localStorage.setItem(
         "userData",
         JSON.stringify({
-          id: responseData.id,
-          email: responseData.email,
-          referralCode: responseData.referralCode,
-          role: responseData.role,
+          id: responseData.user.id,
+          email: responseData.user.email,
+          phoneNumber: responseData.user.phoneNumber,
+          walletAddress: responseData.user.walletAddress,
+          twitterId: responseData.user.twitterId || "",
         })
       );
 
@@ -77,7 +85,7 @@ export default function Login() {
       });
 
       setFormData({
-        number: "",
+        phoneNumber: "",
         password: "",
       });
 
@@ -141,10 +149,12 @@ export default function Login() {
           <div className="lg:w-1/2 relative bg-gradient-to-br from-blue-500 to-purple-600 hidden lg:block">
             <div className="absolute inset-0 flex items-center justify-center p-8">
               <div className="text-center">
-                <img
+                <Image
                   src="https://res.cloudinary.com/dtfvdjvyr/image/upload/v1740060892/Group_7_xmjgul.png"
                   alt="Login illustration"
                   className="mx-auto mb-8 rounded-lg shadow-lg"
+                  width={250}
+                  height={250}
                 />
                 <h2 className="text-3xl font-bold text-white mb-4">
                   Welcome Back!
@@ -171,23 +181,26 @@ export default function Login() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label className="block text-gray-700 font-medium mb-2">
-                  Phone Number
+                  Phone number
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <Phone className="h-5 w-5 text-gray-400" />
+                    <User className="h-5 w-5 text-gray-400" />
                   </div>
                   <input
-                    type="number"
-                    name="number"
+                    type="tel"
+                    name="phoneNumber"
                     placeholder="Enter your phone number"
-                    value={formData.number}
+                    value={formData.phoneNumber}
                     onChange={handleInputChange}
-                    className="w-full p-4 pl-12 border text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                    className="w-full p-3 pl-12 border text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
                     required
                     disabled={isLoading}
                   />
                 </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  Format: +1234567890 or 1234567890
+                </p>
               </div>
 
               <div>
@@ -230,7 +243,7 @@ export default function Login() {
                 </div>
               </div>
 
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <input
                   id="remember-me"
                   name="remember-me"
@@ -243,7 +256,7 @@ export default function Login() {
                 >
                   Remember me
                 </label>
-              </div>
+              </div> */}
 
               <motion.button
                 whileHover={!isLoading ? { scale: 1.02 } : {}}
@@ -265,7 +278,7 @@ export default function Login() {
               <p className="text-gray-600">
                 Don&apos;t have an account?{" "}
                 <Link
-                  href="/createaccount"
+                  href="/signup"
                   className="font-medium text-blue-600 hover:text-blue-800 transition-colors"
                 >
                   Create Account

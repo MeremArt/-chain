@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { API_ENDPOINTS } from "@/config/api";
 import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
-import { Eye, EyeOff, Lock, Mail, Phone, CheckCircle } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, Phone } from "lucide-react";
 import Image from "next/image";
 
 export default function Register() {
@@ -20,7 +20,7 @@ export default function Register() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -136,7 +136,7 @@ export default function Register() {
           color: "#fff",
         },
       });
-
+      router.push("/dashboard");
       setFormData({
         email: "",
         phoneNumber: "",
@@ -244,7 +244,7 @@ export default function Register() {
   };
 
   return (
-    <div className="w-full flex items-center justify-center min-h-screen relative overflow-hidden bg-gray-50">
+    <div className="w-full flex items-center justify-center min-h-screen relative overflow-hidden">
       {/* Background gradients */}
       <div className="absolute w-[440px] h-[440px] bg-[#87daba] rounded-full blur-[150px] top-[0%] left-[90%] opacity-[50%] md:block hidden" />
       <div className="absolute w-[225px] h-[225px] bg-[#5fcddc] rounded-full blur-[100px] top-[5%] bottom-[0%] left-[5%] opacity-[0.3]" />
@@ -263,32 +263,18 @@ export default function Register() {
             <div className="absolute inset-0 flex items-center justify-center p-8">
               <div className="text-center">
                 <Image
-                  src="/api/placeholder/400/320"
+                  src="https://res.cloudinary.com/dtfvdjvyr/image/upload/v1740060892/Group_7_xmjgul.png"
                   alt="Registration illustration"
                   className="mx-auto mb-8 rounded-lg shadow-lg"
+                  width={250}
+                  height={250}
                 />
                 <h2 className="text-3xl font-bold text-white mb-4">
                   Join our community
                 </h2>
-                <p className="text-white/90 text-lg mb-6">
+                <p className="text-white/90 text-lg ">
                   Create an account to get started with our platform
                 </p>
-                <div className="space-y-4 text-left">
-                  <div className="flex items-center">
-                    <CheckCircle className="h-6 w-6 text-green-300 mr-3" />
-                    <p className="text-white">Real-time trend analysis</p>
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle className="h-6 w-6 text-green-300 mr-3" />
-                    <p className="text-white">Personalized recommendations</p>
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle className="h-6 w-6 text-green-300 mr-3" />
-                    <p className="text-white">
-                      Secure and encrypted transactions
-                    </p>
-                  </div>
-                </div>
               </div>
             </div>
             <div className="absolute bottom-4 left-4 right-4 text-white/70 text-center text-sm">
@@ -356,7 +342,7 @@ export default function Register() {
               </div>
 
               {/* Twitter ID field (optional) */}
-              <div>
+              {/* <div>
                 <label className="block text-gray-700 font-medium mb-2">
                   Twitter ID{" "}
                   <span className="text-gray-500 text-sm">(optional)</span>
@@ -390,7 +376,7 @@ export default function Register() {
                 <p className="text-xs text-gray-500 mt-1">
                   Your Twitter handle without the @ symbol
                 </p>
-              </div>
+              </div> */}
 
               {/* Password field */}
               <div>
@@ -431,7 +417,7 @@ export default function Register() {
               </div>
 
               {/* Confirm Password field */}
-              <div>
+              {/* <div>
                 <label className="block text-gray-700 font-medium mb-2">
                   Confirm Password
                 </label>
@@ -468,7 +454,7 @@ export default function Register() {
                       Passwords do not match
                     </p>
                   )}
-              </div>
+              </div> */}
 
               {/* Terms and conditions */}
               <div className="flex items-start mt-4">

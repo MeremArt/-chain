@@ -45,9 +45,11 @@ const LandingPage: React.FC = () => {
           >
             Socials
           </a>
-          <button className="bg-[#fffd55] rounded-[12px] px-4 py-3 font-nunito font-bold text-[22px] text-[#0f0f0f] cursor-pointer hover:scale-105 transition-transform">
-            Sign up
-          </button>
+          <Link href="/signup">
+            <button className="bg-[#fffd55] rounded-[12px] px-4 py-3 font-nunito font-bold text-[22px] text-[#0f0f0f] cursor-pointer hover:scale-105 transition-transform">
+              Sign up
+            </button>
+          </Link>
         </div>
       </nav>
 

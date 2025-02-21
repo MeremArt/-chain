@@ -6,7 +6,7 @@ export const API_ENDPOINTS = {
   // auth related endpoints
   AUTH: {
     SIGNUP: `${API_BASE_URL}/auth/signup`,
-    LOGIN: `${API_BASE_URL}/auth/login`,
+    LOGIN: `${API_BASE_URL}/api/auth/login`,
   },
   PROFILE: {
     RATE: `${API_BASE_URL}/rates`,
